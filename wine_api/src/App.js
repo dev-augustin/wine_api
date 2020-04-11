@@ -7,8 +7,9 @@ export default class App extends Component {
   constructor(props){
     super(props);
     this.state = {
-      name: [],
-      winepicture:[]
+      wineNames: [],
+      winePictures:[],
+      wineNamePicList:[]
     }
   }
   componentDidMount(){
@@ -21,20 +22,33 @@ export default class App extends Component {
           //console.log(API_URL);
           //console.log("Response: ", response.data);
           const dataName=response.data;
-          // console.log(dataName[0]);
-          //const dataName=response.data.map(listitem => console.log(listitem.name))
-          let winePic=dataName.map(listitem =>listitem.picture);
-         console.log("hello",winePic[0]);
-          //console.log(response.data.picture)
-          // this.setState({
-          //   name:dataName.map((winename,i) => 
-          //   (<li key={i} className='wine-name-list'>{winename.name}</li>))},
-          this.setState({
-            name:dataName.map((winename,i) => 
-            (<li key={i} className='wine-name-list'>{winename.name}</li>))},
-          );
-          this.setState ({winepicture: winePic});
-        }
+          console.log("test",dataName.length);
+          let wineNamesArray=[];
+          let wineImagesArray=[];
+          for (let i=0; i< dataName.length; i++){
+            wineNamesArray.push(dataName[i].name);
+            //console.log("Wine: ", wineNamesArray);
+            wineImagesArray.push(dataName[i].picture);
+           // console.log("ImageUrl: ", wineImagesArray);
+          }
+        
+        let imagesList=  wineImagesArray.map((image, index) =>( 
+            <img src= {image} key={index} alt ="" />
+            ))
+
+          //console.log(imagesList);
+
+          let mergeResult= imagesList.reduce(function(mergeResult, field, index){
+            mergeResult[wineNamesArray[index]]=field;
+            return mergeResult;
+          }, {})
+          console.log("mergeResult: ", mergeResult)
+        // this.setState({wineNames: wineNamesArray});
+        // this.setState({winePictures: imagesList});
+        // this.setState({wineNamePicList: [wineNamesArray, imagesList]})
+        this.setState({wineNamePicList: mergeResult})
+
+       }
        catch(e){
          console.error(e);
        }
@@ -44,16 +58,14 @@ export default class App extends Component {
       <React.Fragment>
 
       <div>
-      <ul className="wine-name-list">{this.state.name}</ul>
-      <div>
-      <img src= {this.state.winepicture[0]} alt="wine1"/>
-      <img src= {this.state.winepicture[1]} alt="wine1"/>
-      <img src= {this.state.winepicture[2]} alt="wine1"/>
-      <img src= {this.state.winepicture[3]} alt="wine1"/>
-      <img src= {this.state.winepicture[4]} alt="wine1"/>
-      <img src= {this.state.winepicture[5]} alt="wine1"/>
-      </div>
-      </div>
+
+        {/* {this.state.wineNamePicList.map(listItem => <div> {})
+        } */}
+        </div>
+ 
+
+     
+    
         </React.Fragment>
         
     );
@@ -66,3 +78,4 @@ export default class App extends Component {
 //How to store data from json API response into array in ReactJS?
 //https://stackoverflow.com/questions/56783262/how-to-store-data-from-json-api-response-into-array-in-reactjs
 //React: Displaying images from api call - https://stackoverflow.com/questions/54314689/react-displaying-images-from-api-call
+//Merge two array as key value pair - https://riptutorial.com/javascript/example/8628/merge-two-array-as-key-value-pair
