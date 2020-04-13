@@ -10,7 +10,6 @@ export default class App extends Component {
     super(props);
     this.state = {
       wineNamePicList:[],
-      wineDetails:[],
       name:"",
       year: "",
       grapes: "",
@@ -23,6 +22,7 @@ export default class App extends Component {
     };
     this.handleChange=this.handleChange.bind(this);
     this.handleSubmit=this.handleSubmit.bind(this);
+    //this.handleClick=this.handleClick.bind(this);
   }
   componentDidMount(){
     this.getWineApi();
@@ -35,27 +35,31 @@ export default class App extends Component {
           //console.log("Response: ", response.data);
           const dataName=response.data;
           console.log("test",dataName);
-          console.log("wine name: ", dataName[0].name)
-        
-          let winePic=dataName.map((winename, index)=>(<div><img src={winename.picture} alt = "hi" onClick={() => winename.price} height='100px'/> 
-          </div>));
-     
-this.setState({wineNamePicList:winePic});
-  // this.setState({wineDetails:wineDetails} )
- 
+          console.log("nestedData: " ,response.data[0]);
 
+          console.log("wine name: ", dataName[0].name)
+           let winePic=dataName.map((winename, id)=>(<div><img src={winename.picture} 
+          alt = "hi" height='100px' key={winename.id}/> <p>{winename.name} <br/> {winename.description} </p>
+          <button onClick={ () => this.deleteWine(winename.id)}>Delete </button></div>));
+        
+        console.log(winePic)
+        this.setState({wineNamePicList:winePic});
        }
        catch(e){
          console.error(e);
        }
   }
-
-// handleClick(e){
-//   console.log("hello");
+deleteWine(id){
+  console.log("id to delete ", id)
+  axios.delete(API_URL+"/"+id)
+  .then(()=>{
+    this.getWineApi();
+    
+  })
  
-// }
-
-handleChange(event){
+  
+}
+handleChange=event => {
   this.setState({[event.target.name] : event.target.value});
 }
 
@@ -69,15 +73,24 @@ handleSubmit = event =>{
     region: this.state.region,
     description: this.state.description,
     picture: this.state.picture,
-    price: this.state.picture
+    price: this.state.price
 
 };
-
-axios.post(API_URL, {newWine})
- .then(res => {
+console.log("newWine: ", newWine);
+console.log(API_URL);
+this.postApi(newWine);
+}
+async postApi(wineData){
+  console.log("windata", wineData)
+try{
+  const res = await axios.post(API_URL, wineData)
  console.log(res);
  console.log(res.data)
-})
+} 
+catch (error){
+  console.log(error);
+} 
+this.getWineApi();
 
 }
  
@@ -162,5 +175,6 @@ axios.post(API_URL, {newWine})
 //Merge two array as key value pair - https://riptutorial.com/javascript/example/8628/merge-two-array-as-key-value-pair
 //Rendering an Array of Data with map() and JSX
 //- http://www.hackingwithreact.com/read/1/13/rendering-an-array-of-data-with-map-and-jsx
-
+// - https://alligator.io/react/axios-react/
 //Handling Multiple Form Inputs in React : https://medium.com/better-programming/handling-multiple-form-inputs-in-react-c5eb83755d15, https://www.w3schools.com/react/react_forms.asp
+//Delete data from API : https://stackoverflow.com/questions/53981989/delete-data-from-api-with-axios-and-reactjs
