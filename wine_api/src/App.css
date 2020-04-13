@@ -13,37 +13,42 @@ body{
 h3{
   text-align: center;
 }
-/* .wineDisplay{
-flex-direction: column;
+#wineDisplay{
+flex-direction: row;
+margin-left:10px;
 border: brown;
 border-radius: 10px;
-/* background-color:black;  */
+}
 
 .App {
 
-  display:grid;
-  height:700px;
+  display:flex;
+  flex-direction: row;
+  /* flex-wrap: wrap; */
+
+  /* height:700px;
   Width:1200px;
   grid-template-columns: 60% auto;
   grid-template-rows: 570px 370px;
   grid-gap:10px;
   grid-template-areas:
   "wineInfo forms"
-  "wineInfo forms";
+  "wineInfo forms"; */
   }
-  #Wines{
+  /* #Wines{
 
   grid-area: wineInfo;
   background-color:rgb(102, 101, 93);
-  /* height: 800px; */
+
   }
+  
   #wineForm{
   background-color:rgb(168, 166, 147);
   grid-area:forms;
   padding: 10px;
   color: brown;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  }
+  } */
  
 /* label{
     padding: 10px;
@@ -66,6 +71,7 @@ form > button{
 #button{
   padding: 1px;
   margin-bottom :20px;
+  /* align-items: left; */
   margin-top: 0px;
   background-color: lightblue;
   color: brown;
@@ -81,7 +87,7 @@ label {
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
-  text-align: right;
+  text-align: left;
   width: 400px;
   line-height: 26px;
   margin-bottom: 10px;
@@ -92,5 +98,10 @@ input {
   flex: 0 0 200px;
   margin-left: 10px;
 }
-
+h1{
+  text-align: center;
+}
+h3{
+  text-align: left;
+}
 /* https://www.w3schools.com/html/tryit.asp?filename=tryhtml_lists_menu */
