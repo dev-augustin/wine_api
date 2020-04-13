@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import './App.css';
+import WineInfo from './components/WineInfo';
 
 const API_URL=process.env.REACT_APP_API_URL;
 console.log(API_URL)
@@ -8,10 +9,20 @@ export default class App extends Component {
   constructor(props){
     super(props);
     this.state = {
-      wineNames: [],
-      winePictures:[],
-      wineNamePicList:[]
-    }
+      wineNamePicList:[],
+      wineDetails:[],
+      name:"",
+      year: "",
+      grapes: "",
+      country: "",
+      region:"",
+      description:"",
+      picture:"",
+      price:""
+     
+    };
+    this.handleChange=this.handleChange.bind(this);
+    this.handleSubmit=this.handleSubmit.bind(this);
   }
   componentDidMount(){
     this.getWineApi();
@@ -23,54 +34,115 @@ export default class App extends Component {
           //console.log(API_URL);
           //console.log("Response: ", response.data);
           const dataName=response.data;
-          console.log("test",dataName.length);
-            let winePic=dataName.map((winename, index)=>(
-            <ul className="ulIndex"><li className="listIndex" key={index}>{winename.name} <img src={winename.picture} alt = "wine names" height='100px'/> </li>
-            </ul>));
-          // let winePic=dataName.map((winename, index)=>(<p className="ulIndex" key={index}>{winename.name} <img src={winename.picture} alt = "hi"/> </p>));
-          //  console.log("WinePic: ",winePic)
-        //   let wineNamesArray=[];
-        //   let wineImagesArray=[];
-        //   for (let i=0; i< dataName.length; i++){
-        //     wineNamesArray.push(dataName[i].name);
-        //     //console.log("Wine: ", wineNamesArray);
-        //     wineImagesArray.push(dataName[i].picture);
-        //    // console.log("ImageUrl: ", wineImagesArray);
-        //   }
+          console.log("test",dataName);
+          console.log("wine name: ", dataName[0].name)
+        
+          let winePic=dataName.map((winename, index)=>(<div><img src={winename.picture} alt = "hi" onClick={() => winename.price} height='100px'/> 
+          </div>));
      
-        // let imagesList=  wineImagesArray.map((image, index) =>( 
-        //     <img src= {image} key={index} alt ="" />
-        //     ))
+this.setState({wineNamePicList:winePic});
+  // this.setState({wineDetails:wineDetails} )
+ 
 
-          //console.log(imagesList);
-
-          // let mergeResult= imagesList.reduce(function(mergeResult, field, index){
-          //   mergeResult[wineNamesArray[index]]=field;
-          //   return mergeResult;
-          // }, {})
-          // console.log("mergeResult: ", mergeResult)
-        // this.setState({wineNames: wineNamesArray});
-        // this.setState({winePictures: imagesList});
-        // this.setState({wineNamePicList: [wineNamesArray, imagesList]})
-//setState({wineNamePicList: mergeResult})
-this.setState({wineNamePicList:winePic})
        }
        catch(e){
          console.error(e);
        }
   }
 
+// handleClick(e){
+//   console.log("hello");
+ 
+// }
 
+handleChange(event){
+  this.setState({[event.target.name] : event.target.value});
+}
+
+handleSubmit = event =>{
+  event.preventDefault();
+  let newWine = {
+    name: this.state.name,
+    year: this.state.year,
+    grapes: this.state.grapes,
+    country: this.state.country,
+    region: this.state.region,
+    description: this.state.description,
+    picture: this.state.picture,
+    price: this.state.picture
+
+};
+
+axios.post(API_URL, {newWine})
+ .then(res => {
+ console.log(res);
+ console.log(res.data)
+})
+
+}
  
   render() {
     return (
       <React.Fragment>
+      <div className="display"  >
+      {this.state.wineNamePicList}
+      {/* {this.state.wineDetails} */}
+      {/* <WineInfo/> */}
+      {/* </div>
+      <div> */}
+       <form onSubmit={this.handleSubmit}>
+        <label>
+          Wine Name:
+          <input type = "text" name="name" onChange={this.handleChange} />
+        </label>
+        <label>
+          Year: 
+          <input type ="text"
+          name="year" 
+          onChange={this.handleChange}/>
+        </label>
+        <label>
+          Grapes: 
+          <input type ="text" name="grapes" 
+          onChange={this.handleChange}/>
+        </label>
+        <label>
+          Country: 
+          <input type ="text" name="country"
+          onChange={this.handleChange}/>
+        </label>
+        <label>
+          Region: 
+          <input type ="text" name="region"
+          onChange={this.handleChange}/>
+        </label>
+        <label>
+          Description: 
+          <input type ="text" name="description"
+          onChange={this.handleChange}/>
+        </label>
 
-      <div className="display" >
+        <label>
+          Picture : 
+          <input type ="text" name="picture"
+          onChange={this.handleChange}/>
+        </label>
 
-        {this.state.wineNamePicList}
-        }
-        </div>
+        <label>
+          Price: 
+          <input type ="text" name="price"
+          onChange={this.handleChange}/>
+        </label>
+        <button type="submit"> Create Wine </button>
+
+
+       </form>
+      </div>
+      {/* <div className="display"   onClick={this.handleClick}>
+
+        {this.state.wineDetails}
+      
+        </div> */}
  
 
      
@@ -90,3 +162,5 @@ this.setState({wineNamePicList:winePic})
 //Merge two array as key value pair - https://riptutorial.com/javascript/example/8628/merge-two-array-as-key-value-pair
 //Rendering an Array of Data with map() and JSX
 //- http://www.hackingwithreact.com/read/1/13/rendering-an-array-of-data-with-map-and-jsx
+
+//Handling Multiple Form Inputs in React : https://medium.com/better-programming/handling-multiple-form-inputs-in-react-c5eb83755d15, https://www.w3schools.com/react/react_forms.asp
