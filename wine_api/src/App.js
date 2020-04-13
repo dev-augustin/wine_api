@@ -36,14 +36,15 @@ export default class App extends Component {
         // console.log("nestedData: " ,response.data[0]);
         //console.log("wine name: ", dataName[0].name)
           let winePic=dataName.map((winename, id)=>(<div id="wineDisplay" key={winename.id}><img id="images" src={winename.picture} 
-        alt = "wine name" height='100px'/> <p><h5>Wine Name :</h5> {winename.name} <br/> <h5>
-        Year: 
+        alt = "wine name" height='100px'/><h5>Wine Name :</h5> {winename.name} <h5>
+        Year:  {winename.year} 
         </h5>
-        {winename.year} <br/>
-        <h5>Grapes: </h5>
-        {winename.grapes} <br/>
-        <h5>Region: </h5>{winename.region} <br/> <h5>Description: </h5>{winename.description} </p>
-        <button id="button" onClick={ () => this.deleteWine(winename.id)}>Delete </button><br/></div>));
+       
+        <h5>Grapes: {winename.grapes} </h5>
+        
+        <h5>Region:{winename.region} </h5>
+        <h5>Description: </h5>{winename.description} <br/> <br/>
+       <button id="button" onClick={ () => this.deleteWine(winename.id)}>Delete </button><br/></div>));
       
         //console.log(winePic)
         this.setState({wineNamePicList:winePic});
@@ -106,7 +107,8 @@ export default class App extends Component {
         <div className="App">
         {this.state.wineNamePicList}
         </div>
-        <h3>Create new Wine </h3>
+        <hr/>
+        <h2>Create new Wine form </h2>
         <form id="wineForm" onSubmit={this.handleSubmit}>
           <label>
           Wine Name:
