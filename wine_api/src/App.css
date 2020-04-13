@@ -16,8 +16,11 @@ h3{
 #wineDisplay{
 flex-direction: row;
 margin-left:10px;
-border: brown;
-border-radius: 10px;
+padding: 13px;
+background-color:gray;
+/* border: brown;
+border-radius: 5px;
+border-width: 5px;  */
 }
 
 .App {
@@ -70,17 +73,22 @@ form > button{
 }
 #button{
   padding: 1px;
-  margin-bottom :20px;
+  margin-bottom :1px;
+  width: 80px;
   /* align-items: left; */
   margin-top: 0px;
   background-color: lightblue;
   color: brown;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   font-size: medium;
+  text-align: center;
+  border-radius: 10px;
 }
 
 #images{
-  margin-top: 5px;
+  margin: 5px;
+  padding:2px;
+  
 }
 
 label {
@@ -101,7 +109,7 @@ input {
 h1{
   text-align: center;
 }
-h3{
+h2{
   text-align: left;
 }
 /* https://www.w3schools.com/html/tryit.asp?filename=tryhtml_lists_menu */
